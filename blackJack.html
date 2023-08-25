@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: rgb(49, 129, 49);
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        background-image: url("istockphoto-1218355494-170667a.jpg");
+        background-repeat: no-repeat;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+    }
+    h1{
+        color: goldenrod;
+    }
+    #message{
+        font-style: italic;
+    }
+    #strt-btn, #card-btn{
+        border-radius: 10px;
+        width: 200px;
+        color: rgb(38, 113, 38);
+        background-color: goldenrod;
+        padding: 10px;
+        border: none;
+        font-weight: bold;
+    }
+    #strt-btn:hover, #card-btn:hover{
+        box-shadow: 1px 1px rgb(236, 217, 217);
+    }
+    .card-div{
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+</style>
+<body>
+    <h1>BlackJack</h1>
+    <p id="message">Want to play around?</p>
+    <p id="cardE">Cards: </p>
+    <p id="sum">Sum: </p>
+    <button id="strt-btn" onclick="startGame()">START GAME</button>
+    <div class="card-div">
+     <button id="card-btn" onclick="newCard()">NEW CARD</button>
+    </div>
+    <p id="player"></p>
+
+    <script>
+        let cards = [];
+        let sum = 0;
+        let hasBlackJack = false;
+        let isAlive = false;
+        let message = "";
+
+        let playerE = { // object ---> store data in depth
+            name: "Ivan Toney",
+            chips: "75m"
+        }
+        let score = document.getElementById("player");
+        score.textContent = playerE.name + ": $" + playerE.chips;
+
+        let messageE = document.getElementById("message");
+        // let sumE = document.getElementById("sum");
+        let sumE = document.querySelector("#sum"); // inside declare id # 
+        let cardE = document.querySelector("#cardE");
+
+        function startGame(){
+            let firstCard = getRandomCard();
+            let secondCard = getRandomCard();
+            cards = [firstCard, secondCard];
+            sum = firstCard + secondCard;
+            isAlive = true;
+            renderGame();
+        }
+        function getRandomCard(){
+            let randomNumber = Math.floor(Math.random()* 13) + 1;
+            if(randomNumber > 10){
+                return 10;
+            }
+            else if(randomNumber === 1){
+                return 11;
+            }
+            else{
+                return randomNumber;
+            }
+
+        }
+
+        function renderGame(){
+
+            sumE.textContent = "Sum: " + sum;
+            cardE.textContent = "Cards : ";
+            for (let i = 0; i<cards.length; i++){
+                cardE.textContent += cards[i] + " ";
+            }
+
+            if (sum < 21){
+                message = "do you want to draw a card?";
+            }
+            else if(sum === 21){
+                message = "wohoo! you've got blocked";
+                hasBlackJack = true;
+            }
+            else{
+                message = "you're not of the game";
+                isAlive = false;
+            }
+            messageE.innerText = message;
+        }
+        function newCard(){
+            if(isAlive === true && hasBlackJack === false){
+                let card = getRandomCard();
+                sum += card;
+                cards.push(card);
+                renderGame();
+            }
+            
+        }
+    </script>
+</body>
+</html>
