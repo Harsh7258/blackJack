@@ -1,0 +1,2 @@
+# blackJack
+js basic project
